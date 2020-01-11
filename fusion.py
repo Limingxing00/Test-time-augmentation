@@ -17,36 +17,36 @@ class Test_time_agumentation(object):
         """
         clockwise rotation 90 180 270
         """
-        img90 = img.rot90(-1, [0, 1]) # 1 逆时针； -1 顺时针
-        img180 = img.rot90(-1, [0, 1]).rot90(-1, [0, 1])
-        img270 = img.rot90(1, [0, 1])
+        img90 = img.rot90(-1, [2, 3]) # 1 逆时针； -1 顺时针
+        img180 = img.rot90(-1, [2, 3]).rot90(-1, [2, 3])
+        img270 = img.rot90(1, [2, 3])
         return [img90, img180, img270]
 
     def __inverse_rotation(self, img90, img180, img270):
         """
         anticlockwise rotation 90 180 270
         """
-        img90 = img90.rot90(1, [0, 1]) # 1 逆时针； -1 顺时针
-        img180 = img180.rot90(1, [0, 1]).rot90(1, [0, 1])
-        img270 = img270.rot90(-1, [0, 1])
-        return [img90, img180, img270]
+        img90 = img90.rot90(1, [2, 3]) # 1 逆时针； -1 顺时针
+        img180 = img180.rot90(1, [2, 3]).rot90(1, [2, 3])
+        img270 = img270.rot90(-1, [2, 3])
+        return img90, img180, img270
 
     def __flip(self, img):
         """
         Flip vertically and horizontally
         """
-        return [img.flip(0), img.flip(1)]
+        return [img.flip(2), img.flip(3)]
 
     def __inverse_flip(self, img_v, img_h):
         """
         Flip vertically and horizontally
         """
-        return [img_v.flip(0), img_h.flip(1)]
+        return img_v.flip(2), img_h.flip(3)
 
     def tensor_rotation(self, img):
         """
         img size: [H, W]
-        rotation degree: [0 90 180 270]
+        rotation degree: [90 180 270]
         :return a rotated list
         """
         # assert img.shape == (1024, 1024)
@@ -55,7 +55,7 @@ class Test_time_agumentation(object):
     def tensor_inverse_rotation(self, img_list):
         """
         img size: [H, W]
-        rotation degree: [0 90 180 270]
+        rotation degree: [90 180 270]
         :return a rotated list
         """
         # assert img.shape == (1024, 1024)
@@ -83,7 +83,7 @@ if __name__ == "__main__":
     print(a)
     tta = Test_time_agumentation()
     # a = tta.tensor_rotation(a)
-    a = tta.tensor_rotation(a)
+    a = tta.tensor_flip(a)
     print(a)
-    a = tta.tensor_inverse_rotation(a)
+    a = tta.tensor_inverse_flip(a)
     print(a)
